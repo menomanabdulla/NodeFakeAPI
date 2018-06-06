@@ -1,8 +1,11 @@
 
 const fs = require('fs')
 const faker = require('faker')
+const fakerData = require('./fakerData')
 
-function generate(){
+let data = fakerData.fakerData()
+console.log(data)
+/*function generate(){
     let person = []
     for(let i = 0; i<10; i++){
         obj = {}
@@ -11,23 +14,35 @@ function generate(){
         person.push(obj)
     }
     return person
-}
+}*/
 
-fs.appendFile('person.json', JSON.stringify(generate()), (err) => {
+fs.writeFile('person.json', JSON.stringify(data), (err) => {
     if (err) {
         console.log(`Here Error occured for ${err}`)
     }
-
     console.log("Successfuly Write person")
 });
 
-let objFinal = {}
+let objFinal = []
 fs.readFile('person.json', 'utf8',(err, data) => {
     if (err) throw err;
     objFinal = JSON.parse(data)
-    console.log(objFinal)
+
+    for(let i = 0; i<objFinal.length; i++){
+      console.log(`Name: ${objFinal[i].name} \n Email: ${objFinal[i].email}`)
+    }
+    //console.log(objFinal)
+    //console.log(`Name: ${objFinal.name} \n Email: ${objFinal.email}`)
 });
 
+fs.writeFile('personClone.json', JSON.stringify(objFinal), (err) => {
+    if (err) {
+        console.log(`Here Error occured for ${err}`)
+    }
+    console.log("Successfuly Write personClone")
+});
+
+/*
 fs.appendFile('clonePerson.json', JSON.stringify(objFinal), (err) => {
     if (err) {
         console.log(`Here Error occured for ${err}`)
